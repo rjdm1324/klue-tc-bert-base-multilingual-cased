@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>klue-tc-bert-base-multilingual-cased model</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<script type="text/javascript">
+    let time_obj = undefined;
+    let flag = undefined;
+    let chars = undefined;
+
+    window.onload = () => {
+        time_obj = document.getElementById("timer");
+        flag = false;       // 더블 클릭 체크
+    }
+
+    function double_submit_check() {
+        if (flag) {
+            console.log("double");
+            return true;
+        }
+        else {
+            flag = true;
+
+            return false;
+        }
+    }
+
+    function send_req() {
+        if (double_submit_check()){
+            return ;
+        }
+
+        let headline = document.getElementById("headline").value;
+
+        if (headline == '') {
+            document.getElementById('warning').innerText = 'Please fill text!';
+            flag = false;
+            return ;
+        }
+
+        const formData = new FormData();
+        const url = "/generate";
+        let start = 0;
+
+        formData.append('headline', headline);
+
+        // timer
+        timer = setInterval(() => {
+            start += 1;
+            time_obj.innerText = `${start / 10} 's`;
+        }, 100);
+
+        fetch (url, { method: 'POST', body: formData, })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                clearInterval(timer);
+                flag = false;
+            }
+        }).catch(err => {
+            clearInterval(timer);
+            flag = false;
+            document.getElementById('warning').innerText = err;
+        }).then(data => {
+            const result = document.getElementById('result');
+            const score_list = [data[0][0]['score'],data[0][1]['score'],data[0][2]['score'],data[0][3]['score'],data[0][4]['score'],data[0][5]['score'],data[0][6]['score']];
+            const i = score_list.indexOf(Math.max(...score_list));
+            result.innerHTML = data[0][i]['label'];
+            clearInterval(timer);
+            time_obj.innerText = 'Done!';
+            flag = false;
+        }).catch(err => {
+            clearInterval(timer);
+            flag = false;
+            document.getElementById('warning').innerText = err;
+        });
+
+    }
+
+</script>
+<body>
+    <div class="styles">
+        <style>
+                #button{
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-top-left-radius: 5pt;
+                    border-top-right-radius: 5pt;
+                    border-bottom-left-radius: 5pt;
+                    border-bottom-right-radius: 5pt;
+                }
+
+                #length{
+                    width: 70px;
+                    height: 30px;
+                    border-top-left-radius: 5pt;
+                    border-top-right-radius: 5pt;
+                    border-bottom-left-radius: 5pt;
+                    border-bottom-right-radius: 5pt;
+                }
+
+                table {
+                  border-spacing: 10px;
+                  border-collapse: separate;
+                }
+
+        </style>
+    </div>
+    <div class="container">
+        <div class="jumbotron mt-3">
+            <div class="intro">
+                <br>
+                <!-- Project title -->
+                <h1>klue-tc-bert-base-multilingual-cased(Korean)</h1><br>
+                <p>This model categorizes topics in news headlines into one of the seven topic(정치, 경제, 생활문화, 사회 ,세계, IT과학, 스포츠).</p>
+                <p>Try using the klue-tc-bert-base-multilingual-cased model as a bert-base-multilingual-cased model trained on klue-tc dataset.</p>
+                <a>Github : </a> <a href="https://github.com/KLUE-benchmark/KLUE" target="_blank">KLUE-benchmark/KLUE</a><br>
+                <a>Open API : </a> <a href="https://ainize.ai/rjdm1324/klue-tc-bert-base-multilingual-cased" target="_blank">On Ainize</a><br>
+                <a>License : </a> <a href="https://github.com/KLUE-benchmark/KLUE/blob/main/License.md" target="_blank">CC-BY-SA-4.0</a><br>
+            </div>
+
+            <hr width="90%">
+
+            <div class="Notice">
+                <h3>Notice</h3>
+                <ul>
+                    <li>This model trained with Korean dataset.</li>
+                    <li>You can use English, but don't expect accuracy.</li>
+                    <li>If the context is longer than 1200 characters, the context may be cut in the middle and the result may not come out well.</li>
+                </ul>
+            </div>
+
+            <hr width="90%">
+
+            <div class="sample">
+                <h3><label>Example</label></h3>
+                <h5><label>News Headline</label></h5>
+                <label>내년도 최저임금 9천160원, 5.1% 인상…"경기회복 고려</label>
+                <h5><label>Result</label></h5>
+                <label>경제</label>
+            </div>
+
+            <br><hr width="90%">
+
+            <div class="generate">
+                <h3>Try it!</h3><br>
+                <label>News Headline</label>
+                <div><textarea type="text" id="headline" style="width:80%; height: 100px" ></textarea></div>
+                <button class="btn btn-primary btn=lg" type="submit" id="button" onclick="send_req();">Summit</button><br>
+                <label>Timer:&nbsp;</label><label id="timer">0.0</label><br>
+                <b><label id="warning" style="color:red;"></label></b>
+            </div>
+
+            <hr width="90%">
+
+            <div class="result">
+                <h3><label>Result</label></h3>
+                <label id="result"></label>
+            </div>
+
+            <br><hr width="50%">
+        </div>
+    </div>
+</body>
+</html>
