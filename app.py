@@ -65,7 +65,6 @@ def generate():
     try:
         args = []
         headline = request.form['headline']
-
         args.append(headline)
 
     except Exception as e:

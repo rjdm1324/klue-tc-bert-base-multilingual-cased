@@ -11,13 +11,14 @@ News Headline Textbox에 분류하고 싶은 Headline을 입력합니다.
 ----
 1. [Klue-tc (a.k.a. ynat)](https://github.com/KLUE-benchmark/KLUE) data set을 준비했습니다.
 
-2. data set을 bert-base-multilingual-cased 모델에 fine-tuning 하였습니다.
+2. data set을 [bert-base-multilingual-cased](https://huggingface.co/bert-base-multilingual-cased) 모델에 fine-tuning 하였습니다.
 
 ## Healthy Check
 ----
 Using curl in the terminal:
 
-'''
+```
+
 $ curl --request GET https://main-klue-tc-bert-base-multilingual-cased-rjdm1324.endpoint.ainize.ai/healthz  
 
-'''
+```
