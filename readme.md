@@ -17,7 +17,8 @@ News Headline Textbox에 분류하고 싶은 Headline을 입력합니다.
 ----
 Using curl in the terminal:
 
-'''
+```
+
 $ curl --request GET https://main-klue-tc-bert-base-multilingual-cased-rjdm1324.endpoint.ainize.ai/healthz  
 
-'''
+```
