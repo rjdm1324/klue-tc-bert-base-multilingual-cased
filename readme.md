@@ -4,25 +4,20 @@
 * 뉴스 헤드라인을 입력받아 7가지 Topic 중 하나로 분류합니다. (정치,사회,생활문화,IT과학,스포츠,경제,세계)
 * 사용한 모델 : klue의 [Klue-tc (a.k.a. ynat)](https://github.com/KLUE-benchmark/KLUE) data set으로 [bert-base-multilingual-cased](https://huggingface.co/bert-base-multilingual-cased) 모델을 fine-tuning하였습니다.
 
-## How to use
-----
-News Headline Textbox에 분류하고 싶은 Headline을 입력합니다.
+# How to use
 
-## How to make
-----
-1. [Klue-tc (a.k.a. ynat)](https://github.com/KLUE-benchmark/KLUE) data set을 준비했습니다.
+* News Headline Textbox에 분류하고 싶은 Headline을 입력합니다.
 
-2. data set을 [bert-base-multilingual-cased](https://huggingface.co/bert-base-multilingual-cased) 모델에 fine-tuning 하였습니다.
 
-## Post Parameter
-----
+# Post Parameter
+
 ```
 headline="뉴스 헤드라인"
 
 ```
 
-## output format
-----
+# output format
+
 ```
 {
     "0": [
@@ -58,8 +53,8 @@ headline="뉴스 헤드라인"
 }
 ```
 
-## API Predict Test
-----
+# API Predict Test
+
 ```
 curl -L -X POST 'https://main-klue-tc-bert-base-multilingual-cased-rjdm1324.endpoint.ainize.ai/generate' -F 'headline="손흥민 첼시전 시즌 5호골.. 득점 2위 도약"'
 
@@ -99,9 +94,9 @@ curl -L -X POST 'https://main-klue-tc-bert-base-multilingual-cased-rjdm1324.endp
 ```
 
 
-## Healthy Check
-----
-Using curl in the terminal:
+# Healthy Check
+
+* Using curl in the terminal:
 
 ```
 
@@ -111,3 +106,4 @@ $ curl --request GET https://main-klue-tc-bert-base-multilingual-cased-rjdm1324.
 }
 
 ```
+
